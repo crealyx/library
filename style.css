@@ -1,0 +1,68 @@
+*,
+*::before,
+*::after{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+
+.wrapper{
+    background: url(/library/imgs/bookshelf6.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    max-width: 1900px;
+    height: 937px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card{
+    background-color: rgb(58, 7, 0);
+    color: white;
+    border: 2px solid rgb(0, 0, 0);
+    margin: 0px 10px;
+    width: 300px;
+    text-align: center;
+    height: 100%;
+    position: relative;
+
+}
+
+.card::before{
+    content: 'Title';
+    background-color: rgb(255, 64, 46);
+    width: 70px;
+    height: 20px;
+    position: absolute;
+    top: -22px;
+}
+
+.bookshelf1{
+    margin: 202px auto 0px auto;
+    height: 800px;
+    width:85%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    
+
+}
+
+.buttons{
+    width: 100%;
+    color: white;
+    text-align: center;
+    height: 30%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.bookshelf2{
+    margin: 70px auto;
+    height: 100%;
+    width:85%;
+    display: flex;
+    justify-content: space-around;
+}
