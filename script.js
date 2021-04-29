@@ -1,6 +1,7 @@
 // Get html elements
 let shelf = document.querySelector('.wrapper');
 let bookPopup = document.querySelector('.book-popup');
+let bookInspect = document.querySelector('.book-inspect');
 let topShelf = document.querySelector('.top-shelf');
 let addButton = document.querySelector('#add');
 let popUp = document.querySelector('.popup');
@@ -11,6 +12,12 @@ let pagesInput = document.querySelector('#pages');
 let form = document.querySelector('.form');
 let radioYes = document.querySelector('#yes');
 let radioNo = document.querySelector('#no');
+let removeButton = document.querySelector('.book-remove');
+let debug = document.querySelector('.debug');
+let authorInspect = document.querySelector('#authorInspect');
+let titleInspect = document.querySelector('#titleInspect');
+let pagesInspect = document.querySelector('#pagesInspect');
+let readInspect = document.querySelector('#readInspect');
 
 
 
@@ -19,17 +26,41 @@ let author = '';
 let title = '';
 let pages = '';
 let read = '';
+let cardIndex = 0;
+let index = 0;
 let book;
 
+// Remove book
+
+// function removeBook(params) {
+//     newLibrary = library.filter(book => book.dataset.index !== )
+// }
 
 
+// Book inspection popup
 shelf.addEventListener('click', e => {
     if(e.target.classList.contains('card') || e.target.classList.contains('cardText')){
-        console.log(e.target);
+        console.log(e.target.dataset);
+        console.log(library);
         bookPopup.classList.add('book-active');
     }
     else if(e.target.classList.contains('book-popup')){
         bookPopup.classList.remove('book-active')
+    }
+    else if (e.target.classList.contains('book-remove')){
+        // Get clicked book element's index
+        let cardIndex = e.target.parentElement.dataset.index;
+
+        // Compare to object's index
+        let match = library.find(book => book.index == cardIndex);
+
+        // Remove the matched object from array
+        let removedIndex = library.indexOf(match);
+        library.splice(removedIndex,1);
+
+        // Remove book from shelf
+        e.target.parentElement.remove();
+
     }
 })
 
@@ -41,10 +72,12 @@ form.addEventListener('submit', e => {
         title = titleInput.value;
         pages = pagesInput.value;
         popUp.classList.remove('popup-active');
-        book = new Book(author,title,pages,read);
+        book = new Book(author,title,pages,read,index);
         addToLibrary(book);
+        inspectBook(book);
+        cardIndex++
+        index++
     }
-    console.log(library);
 });
 
 
@@ -60,27 +93,27 @@ popUp.addEventListener('click', e => {
     }
 })
 
+
+
 // Add book object to library array
 function addToLibrary(object) {
     library.push(object);
     createBook(book);
 }
 // Book object constructor
-function Book(a,b,c,d) {
+function Book(a,b,c,d,e) {
     this.author = a;
     this.title = b;
     this.pages = c;
     this.read = d;
+    this.index = e;
 }
 
-// Add book to shelf
-// function addToShelf(arr){
-//     arr.forEach((book) => {
-//         createBook(book);
-//     })
-// }
 
-
+// Remove book visually
+function removeBook(book) {
+    
+}
 
 
 // Create book visually
@@ -91,6 +124,7 @@ function createBook(book){
     cardRemove.textContent = 'X';
     cardRemove.classList.add('book-remove');
     card.append(cardRemove);
+    card.dataset.index = cardIndex;
     cardText.innerHTML = `${book.author}<br>
     ${book.title}<br>
     ${book.pages}<br>
@@ -100,4 +134,11 @@ function createBook(book){
     topShelf.append(card);
     card.append(cardText);
     book = new Book(`${book.author},${book.title},${book.pages}, ${book.read}`);
+}
+
+function inspectBook(book){
+    authorInspect.textContent = `${book.author}`;
+    titleInspect.textContent = `${book.title}`;
+    pagesInspect.textContent = `${book.pages}`;
+    readInspect.textContent = `${book.read}`;
 }
