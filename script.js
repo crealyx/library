@@ -1,4 +1,7 @@
 let topShelf = document.querySelector('.top-shelf');
+let addButton = document.querySelector('#add');
+let popUp = document.querySelector('.popup');
+let popUpClose = document.querySelector('.popup-close');
 
 
 let library = [];
@@ -8,17 +11,28 @@ let library = [];
 // let pages = '600';
 // let read = 'Hatim edildi';
 
+// Activate popup
+addButton.addEventListener('click', () => {
+    popUp.classList.add('popup-active');
+})
 
-let book1 = new Book('Tolkien','Lord of The Rings',999,'read');
-let book2 = new Book('Tolkien','Lord of The Rings',999,'read');
+popUp.addEventListener('click', ev => {
+    if(ev.target.tagName === 'DIV' || ev.target.tagName === 'SPAN'){
+        console.log(ev.target.tagName);
+        popUp.classList.remove('popup-active')
+    }
+})
 
-
-
-addToLibrary(book1);
-addToLibrary(book2);
+let book = new Book(`${book.author},${book.title},${book.pages}, ${book.read}`);
+addToLibrary(book);
 addToShelf(library);
 
 console.log(library);
+
+
+
+
+
 
 
 
@@ -47,6 +61,7 @@ function addToShelf(arr){
         cardText.classList.add('cardText');
         topShelf.append(card);
         card.append(cardText);
+        book = new Book(`${book.author},${book.title},${book.pages}, ${book.read}`);
     })
 }
 
