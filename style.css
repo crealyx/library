@@ -31,7 +31,7 @@ html{
 }
 .card{
     position: relative;
-    background: url(/imgs/book-spine.png);
+    background: url(/library/imgs/book-spine.png);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -103,7 +103,7 @@ html{
     background-color: rgb(0, 255, 0);
 }
 .book-inspect{
-    background: url(/imgs/book.png);
+    background: url(/library/imgs/book.png);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
