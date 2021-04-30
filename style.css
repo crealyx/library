@@ -26,16 +26,19 @@ html{
 .cardText{
     font-family: monospace;
     color: rgb(255, 255, 255);
-    margin: 10px auto;
+    margin: 20px auto;
     line-height: 40px;
 }
 .card{
     position: relative;
-    background-color: rgb(58, 7, 0);
+    background: url(/imgs/book-spine.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     color: white;
     border: 2px solid rgb(0, 0, 0);
     margin: 0px 10px;
-    width: 100px;
+    width: 80px;
     text-align: center;
     height: 100%;
     border-radius: 10px;
@@ -44,7 +47,7 @@ html{
 
 
 .card:hover{
-    width: 105px;
+    width: 90px;
     height: 105%;
 }
 
@@ -86,22 +89,43 @@ html{
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
-    width: 350px;
+    width: 250px;
     max-width: 70%;
-    height: 50%;
+    height: 40%;
     border-radius: 20px;
+    position: relative;
 }
 .book-inspect p{
     text-align: left;
-    margin: 30px;
-    color: white;
+    margin: 10px 60px 0px 30px;
+    color: rgb(255, 255, 255);
+    border-bottom: rgb(255, 75, 75) 2px solid;
+    line-height: 45px;
 }
 .book-inspect span{
-    text-align: left;
-    margin: 50px;
-    color: white;
+    display: inline-block;
+    text-align: center;
+    margin-left: 30px;
+    margin-top: 5px;
     color: yellow;
 }
+
+.text-wrapper{
+    position: relative;
+    height: 330px;
+    
+}
+.read-button{
+    width: 90px;
+    height: 50px;
+    background-color: rgb(253, 75, 75);
+    color: rgb(0, 0, 0);
+    position: absolute;
+    bottom: 0px;
+    left: 30px;
+
+}
+
 .top-shelf{
     margin: 202px auto 0px auto;
     height: 800px;
@@ -122,6 +146,7 @@ html{
     display: block;
 }
 #add{
+    margin-top: 2px;
     width: 100px;
     height: 50px;
     border: 2px solid black;
@@ -147,7 +172,7 @@ html{
     visibility: hidden;
     opacity: 0;
     transition: visibility 0.3s, opacity 0.3s;
-
+    z-index: 2;
 }
 
 form{

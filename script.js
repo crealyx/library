@@ -3,6 +3,7 @@ let shelf = document.querySelector('.wrapper');
 let bookPopup = document.querySelector('.book-popup');
 let bookInspect = document.querySelector('.book-inspect');
 let topShelf = document.querySelector('.top-shelf');
+let bottomShelf = document.querySelector('.bottom-shelf');
 let addButton = document.querySelector('#add');
 let popUp = document.querySelector('.popup');
 let popUpClose = document.querySelector('.popup-close');
@@ -18,7 +19,12 @@ let authorInspect = document.querySelector('#authorInspect');
 let titleInspect = document.querySelector('#titleInspect');
 let pagesInspect = document.querySelector('#pagesInspect');
 let readInspect = document.querySelector('#readInspect');
+let readButton = document.querySelector('.read-button');
+let body = document.body;
 
+let secondPart = body.innerHTML;
+
+body.insertAdjacentHTML('afterend', secondPart);
 
 
 let library = [];
@@ -28,40 +34,51 @@ let pages = '';
 let read = '';
 let cardIndex = 0;
 let index = 0;
+let dataIndex = '';
 let book;
-
-// Remove book
-
-// function removeBook(params) {
-//     newLibrary = library.filter(book => book.dataset.index !== )
-// }
 
 
 // Book inspection popup
 shelf.addEventListener('click', e => {
     if(e.target.classList.contains('card') || e.target.classList.contains('cardText')){
-        console.log(e.target.dataset);
-        console.log(library);
+        dataIndex = e.target.dataset.index;
+        let match = library.find(book => book.index == dataIndex);
         bookPopup.classList.add('book-active');
+        inspectBook(match);
+    }
+    else if(e.target.classList.contains('read-button')){
+        console.log(dataIndex);
+        let match = library.find(book => book.index == dataIndex);
+        if(match.read !== true){
+            match.read = true;
+        }
+        else{
+            match.read = false;
+        }
+        console.log(match);
     }
     else if(e.target.classList.contains('book-popup')){
         bookPopup.classList.remove('book-active')
     }
     else if (e.target.classList.contains('book-remove')){
         // Get clicked book element's index
-        let cardIndex = e.target.parentElement.dataset.index;
+        dataIndex = e.target.parentElement.dataset.index;
 
         // Compare to object's index
-        let match = library.find(book => book.index == cardIndex);
-
+        let match = library.find(book => book.index == dataIndex);
+        console.log(match);
+        console.log(dataIndex);
         // Remove the matched object from array
         let removedIndex = library.indexOf(match);
         library.splice(removedIndex,1);
 
         // Remove book from shelf
         e.target.parentElement.remove();
+        console.log(match);
+        console.log(dataIndex);
 
     }
+    console.log(dataIndex);
 })
 
 // Add custom book to shelf
@@ -77,6 +94,7 @@ form.addEventListener('submit', e => {
         inspectBook(book);
         cardIndex++
         index++
+        console.log(book);
     }
 });
 
@@ -116,6 +134,7 @@ function removeBook(book) {
 }
 
 
+
 // Create book visually
 function createBook(book){
     const card = document.createElement('div');
@@ -125,13 +144,15 @@ function createBook(book){
     cardRemove.classList.add('book-remove');
     card.append(cardRemove);
     card.dataset.index = cardIndex;
-    cardText.innerHTML = `${book.author}<br>
-    ${book.title}<br>
-    ${book.pages}<br>
-    ${book.read}`;
+    cardText.innerHTML = `${book.title}`;
     card.classList.add('card');
     cardText.classList.add('cardText');
-    topShelf.append(card);
+    if(library.length <= 12){
+        topShelf.append(card);
+    }
+    else if(library.length >= 12){
+        bottomShelf.append(card);
+    }
     card.append(cardText);
     book = new Book(`${book.author},${book.title},${book.pages}, ${book.read}`);
 }
