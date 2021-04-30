@@ -196,7 +196,7 @@ html{
 }
 
 form{
-    background: url(/imgs/book.png);
+    background: url(imgs/book.png);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;

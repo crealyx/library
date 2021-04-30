@@ -32,7 +32,6 @@ let index = 0;
 let dataIndex = '';
 let book;
 let match;
-
 // Book inspection popup
 shelf.addEventListener('click', e => {
     // If card is clicked, open book inspection
@@ -77,6 +76,8 @@ form.addEventListener('submit', e => {
 
     // Continue if there is no empty field
     if(authorInput.value !== '' && titleInput.value !== '' && pagesInput.value !== '' && radioYes.checked !== false || radioNo.checked !== false){
+        console.log(radioYes.checked);
+        console.log(radioNo.checked);
         // Reset placeholders
         authorInput.placeholder = '';
         titleInput.placeholder = '';
