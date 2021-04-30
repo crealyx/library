@@ -31,85 +31,105 @@ let cardIndex = 0;
 let index = 0;
 let dataIndex = '';
 let book;
-
+let match;
 
 // Book inspection popup
 shelf.addEventListener('click', e => {
+    // If card is clicked, open book inspection
     if(e.target.classList.contains('card') || e.target.classList.contains('cardText')){
         dataIndex = e.target.dataset.index;
-        let match = library.find(book => book.index == dataIndex);
+        matchCardToObject();
         bookPopup.classList.add('book-active');
         inspectBook(match);
-        console.log(match.read);
     }
+
+    // If read button is clicked, toggle read
     else if(e.target.classList.contains('read-button')){
-        let match = library.find(book => book.index == dataIndex);
-        if(match.read !== true){
-            match.read = true;
-            readButton.classList.add('read-yes')
-        }
-        else{
-            match.read = false;
-            readButton.classList.remove('read-yes')
-        }
+        matchCardToObject();
+        toggleRead(match);
     }
+
+    // If clicked on outside of inspection, close it
     else if(e.target.classList.contains('book-popup')){
         bookPopup.classList.remove('book-active')
     }
+
+    // If X inside a book is clicked, remove that book
     else if (e.target.classList.contains('book-remove')){
-        // Get clicked book element's index
+        // Get clicked card's index
         dataIndex = e.target.parentElement.dataset.index;
 
-        // Compare to object's index
-        let match = library.find(book => book.index == dataIndex);
+        // Find the matching object
+        matchCardToObject();
+
         // Remove the matched object from array
         let removedIndex = library.indexOf(match);
         library.splice(removedIndex,1);
 
         // Remove book from shelf
         e.target.parentElement.remove();
-
     }
 })
 
-// Add custom book to shelf
+// Add book to shelf with given details
 form.addEventListener('submit', e => {
     e.preventDefault();
-    if(authorInput.value !== '' || titleInput.value !== '' || pagesInput.value !== '' || radioYes.checked !== false || radioNo.checked !== false){
+
+    // Continue if there is no empty field
+    if(authorInput.value !== '' && titleInput.value !== '' && pagesInput.value !== '' && radioYes.checked !== false || radioNo.checked !== false){
+        // Reset placeholders
+        authorInput.placeholder = '';
+        titleInput.placeholder = '';
+        pagesInput.placeholder = '';
+        // Store book details in variables
         author = authorInput.value;
         title = titleInput.value;
         pages = pagesInput.value;
         radioYes.checked ? read = true: read = false;
+
+        // Close the form and add the book to the library
         popUp.classList.remove('popup-active');
         book = new Book(author,title,pages,read,index);
+        createBook(book);
         addToLibrary(book);
         inspectBook(book);
         cardIndex++
         index++
     }
+    else{
+        authorInput.placeholder = 'Please fill all of the form';
+        titleInput.placeholder = 'Please fill all of the form';
+        pagesInput.placeholder = 'Please fill all of the form';
+    }
+    authorInput.value = '';
+    titleInput.value = '';
+    pagesInput.value = '';
+    radioYes.checked = false;
+    radioNo.checked = false;
 });
 
 
-// Activate popup
+// Open submit form
 addButton.addEventListener('click', () => {
     popUp.classList.add('popup-active');
 });
 
-// Remove popup
+// Close submit form
 popUp.addEventListener('click', e => {
     if(e.target.tagName === 'DIV' || e.target.tagName === 'SPAN'){
         popUp.classList.remove('popup-active')
     }
 })
 
+function matchCardToObject() {
+    match = library.find(book => book.index == dataIndex);
+}
 
-
-// Add book object to library array
 function addToLibrary(object) {
     library.push(object);
-    createBook(book);
 }
-// Book object constructor
+
+// Book constructor
 function Book(a,b,c,d,e) {
     this.author = a;
     this.title = b;
@@ -118,31 +138,45 @@ function Book(a,b,c,d,e) {
     this.index = e;
 }
 
-function toggleRead(book) {
-    console.log(book.read);
+function toggleRead(object) {
+    if(object.read !== true){
+        object.read = true;
+        readButton.classList.add('read-yes')
+        readButton.textContent = 'Yes';
+    }
+    else{
+        object.read = false;
+        readButton.classList.remove('read-yes');
+        readButton.textContent = 'No';
+    }
 }
 
 
 
 // Create book visually
 function createBook(book){
+    // Create card
     const card = document.createElement('div');
+    card.dataset.index = cardIndex;
+    card.classList.add('card');
+    // Create the title on card
     const cardText = document.createElement('p');
+    cardText.classList.add('cardText');
+    cardText.innerHTML = `${book.title}`;
+    card.append(cardText);
+    // Create the X on card
     const cardRemove = document.createElement('span');
     cardRemove.textContent = 'X';
     cardRemove.classList.add('book-remove');
     card.append(cardRemove);
-    card.dataset.index = cardIndex;
-    cardText.innerHTML = `${book.title}`;
-    card.classList.add('card');
-    cardText.classList.add('cardText');
+    // Put cards to top shelf
     if(library.length <= 12){
         topShelf.append(card);
     }
+    // Put cards to bottom shelf
     else if(library.length >= 12){
         bottomShelf.append(card);
     }
-    card.append(cardText);
     book = new Book(`${book.author},${book.title},${book.pages}, ${book.read}`);
 }
 
@@ -151,9 +185,11 @@ function inspectBook(book){
     titleInspect.textContent = `${book.title}`;
     pagesInspect.textContent = `${book.pages}`;
     if(book.read === true){
-        readButton.classList.add('read-yes')
+        readButton.classList.add('read-yes');
+        readButton.textContent = 'Yes';
     }
     else{
-        readButton.classList.remove('read-yes')
+        readButton.classList.remove('read-yes');
+        readButton.textContent = 'No';
     }
 }
