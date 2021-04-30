@@ -20,11 +20,6 @@ let titleInspect = document.querySelector('#titleInspect');
 let pagesInspect = document.querySelector('#pagesInspect');
 let readInspect = document.querySelector('#readInspect');
 let readButton = document.querySelector('.read-button');
-let body = document.body;
-
-let secondPart = body.innerHTML;
-
-body.insertAdjacentHTML('afterend', secondPart);
 
 
 let library = [];
@@ -45,17 +40,18 @@ shelf.addEventListener('click', e => {
         let match = library.find(book => book.index == dataIndex);
         bookPopup.classList.add('book-active');
         inspectBook(match);
+        console.log(match.read);
     }
     else if(e.target.classList.contains('read-button')){
-        console.log(dataIndex);
         let match = library.find(book => book.index == dataIndex);
         if(match.read !== true){
             match.read = true;
+            readButton.classList.add('read-yes')
         }
         else{
             match.read = false;
+            readButton.classList.remove('read-yes')
         }
-        console.log(match);
     }
     else if(e.target.classList.contains('book-popup')){
         bookPopup.classList.remove('book-active')
@@ -66,19 +62,14 @@ shelf.addEventListener('click', e => {
 
         // Compare to object's index
         let match = library.find(book => book.index == dataIndex);
-        console.log(match);
-        console.log(dataIndex);
         // Remove the matched object from array
         let removedIndex = library.indexOf(match);
         library.splice(removedIndex,1);
 
         // Remove book from shelf
         e.target.parentElement.remove();
-        console.log(match);
-        console.log(dataIndex);
 
     }
-    console.log(dataIndex);
 })
 
 // Add custom book to shelf
@@ -88,13 +79,13 @@ form.addEventListener('submit', e => {
         author = authorInput.value;
         title = titleInput.value;
         pages = pagesInput.value;
+        radioYes.checked ? read = true: read = false;
         popUp.classList.remove('popup-active');
         book = new Book(author,title,pages,read,index);
         addToLibrary(book);
         inspectBook(book);
         cardIndex++
         index++
-        console.log(book);
     }
 });
 
@@ -127,10 +118,8 @@ function Book(a,b,c,d,e) {
     this.index = e;
 }
 
-
-// Remove book visually
-function removeBook(book) {
-    
+function toggleRead(book) {
+    console.log(book.read);
 }
 
 
@@ -161,5 +150,10 @@ function inspectBook(book){
     authorInspect.textContent = `${book.author}`;
     titleInspect.textContent = `${book.title}`;
     pagesInspect.textContent = `${book.pages}`;
-    readInspect.textContent = `${book.read}`;
+    if(book.read === true){
+        readButton.classList.add('read-yes')
+    }
+    else{
+        readButton.classList.remove('read-yes')
+    }
 }

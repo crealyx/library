@@ -121,11 +121,12 @@ html{
     background-color: rgb(253, 75, 75);
     color: rgb(0, 0, 0);
     position: absolute;
-    bottom: 0px;
+    bottom: -20px;
     left: 30px;
-
 }
-
+.read-yes{
+    background-color: rgb(21, 255, 0);
+}
 .top-shelf{
     margin: 202px auto 0px auto;
     height: 800px;
