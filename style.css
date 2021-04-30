@@ -28,6 +28,7 @@ html{
     color: rgb(255, 255, 255);
     margin: 20px auto;
     line-height: 40px;
+    word-wrap: break-word
 }
 .card{
     position: relative;
@@ -121,11 +122,13 @@ html{
     line-height: 45px;
 }
 .book-inspect span{
-    display: inline-block;
+    display: block;
     text-align: center;
     margin-left: 30px;
     margin-top: 5px;
     color: yellow;
+    word-wrap: break-word;
+    padding-right: 40px;
 }
 
 .text-wrapper{
