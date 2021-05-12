@@ -130,13 +130,24 @@ function addToLibrary(object) {
     library.push(object);
 }
 
-// Book constructor
-function Book(a,b,c,d,e) {
-    this.author = a;
-    this.title = b;
-    this.pages = c;
-    this.read = d;
-    this.index = e;
+// Old Book constructor
+// function Book(a,b,c,d,e) {
+//     this.author = a;
+//     this.title = b;
+//     this.pages = c;
+//     this.read = d;
+//     this.index = e;
+// }
+
+// New Book Class
+class Book{
+    constructor(a,b,c,d,e){
+        this.author = a;
+        this.title = b;
+        this.pages = c;
+        this.read = d;
+        this.index = e;
+    }
 }
 
 function toggleRead(object) {
